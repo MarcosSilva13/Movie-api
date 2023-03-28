@@ -1,5 +1,6 @@
 package com.movie.movieapi.controller;
 
+import com.movie.movieapi.dtos.CategoryDTO;
 import com.movie.movieapi.entity.Category;
 import com.movie.movieapi.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,8 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<Category>> findAll() {
-        List<Category> categories = categoryService.findAll();
-
-        return ResponseEntity.status(HttpStatus.OK).body(categories);
+    public ResponseEntity<List<CategoryDTO>> findAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.findAll());
     }
 
     @GetMapping(value = "/{id}")

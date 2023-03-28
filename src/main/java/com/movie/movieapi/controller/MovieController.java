@@ -1,5 +1,6 @@
 package com.movie.movieapi.controller;
 
+import com.movie.movieapi.dtos.MovieDTO;
 import com.movie.movieapi.entity.Movie;
 import com.movie.movieapi.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,19 +8,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(value = "/movies")
 public class MovieController {
     @Autowired
     private MovieService movieService;
 
     @GetMapping
-    public ResponseEntity<List<Movie>> findAll() {
-        List<Movie> movies = movieService.findAll();
-
-        return ResponseEntity.status(HttpStatus.OK).body(movies);
+    public ResponseEntity<List<MovieDTO>> findAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(movieService.findAll());
     }
 
     @GetMapping(value = "/{id}")
@@ -30,14 +31,14 @@ public class MovieController {
     }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<Movie> insert(@RequestBody Movie movie) {
+    public ResponseEntity<Movie> insert(@RequestBody @Valid Movie movie) {
         Movie movieSaved = movieService.insert(movie);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(movieSaved);
     }
 
     @PutMapping(value = "/update")
-    public ResponseEntity<Movie> update(@RequestBody Movie movie) {
+    public ResponseEntity<Movie> update(@RequestBody @Valid Movie movie) {
         Movie movieUpdated = movieService.update(movie.getId(), movie.getName(), movie.getCategory());
 
         return ResponseEntity.status(HttpStatus.OK).body(movieUpdated);

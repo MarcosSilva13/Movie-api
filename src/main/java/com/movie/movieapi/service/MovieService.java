@@ -1,5 +1,6 @@
 package com.movie.movieapi.service;
 
+import com.movie.movieapi.dtos.MovieDTO;
 import com.movie.movieapi.entity.Category;
 import com.movie.movieapi.entity.Movie;
 import com.movie.movieapi.repository.MovieRepository;
@@ -8,14 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieService {
     @Autowired
     private MovieRepository movieRepository;
 
-    public List<Movie> findAll() {
-        return movieRepository.findAll();
+    public List<MovieDTO> findAll() {
+        return movieRepository.findAll()
+                .stream()
+                .map(movie -> new MovieDTO(movie))
+                .collect(Collectors.toList());
     }
 
     public Movie findById(Long id) {
