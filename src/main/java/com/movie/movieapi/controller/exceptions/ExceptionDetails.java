@@ -2,14 +2,14 @@ package com.movie.movieapi.controller.exceptions;
 
 import java.time.LocalDateTime;
 
-public class StandardError {
-    private LocalDateTime timeStamp;
-    private Integer status;
-    private String error;
-    private String message;
-    private String path;
+public class ExceptionDetails {
+    protected LocalDateTime timeStamp;
+    protected Integer status;
+    protected String error;
+    protected String message;
+    protected String path;
 
-    public StandardError() {
+    public ExceptionDetails() {
     }
 
     public LocalDateTime getTimeStamp() {
