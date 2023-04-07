@@ -36,7 +36,6 @@ public class CategoryService {
     @Transactional
     public CategoryDTO insert(CategoryDTO categoryDTO) {
         Category category = new Category();
-//        category.setName(categoryDTO.getName());
 
         BeanUtils.copyProperties(categoryDTO, category);
 

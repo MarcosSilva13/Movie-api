@@ -1,7 +1,5 @@
 package com.movie.movieapi.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +11,10 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
     private List<Movie> movies = new ArrayList<>();
 
     public Category() {
@@ -41,10 +39,6 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Movie> getMovies() {
-        return movies;
     }
 
     @Override

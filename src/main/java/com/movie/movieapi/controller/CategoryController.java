@@ -1,6 +1,7 @@
 package com.movie.movieapi.controller;
 
 import com.movie.movieapi.dtos.CategoryDTO;
+import com.movie.movieapi.dtos.MovieDTO;
 import com.movie.movieapi.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
