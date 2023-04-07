@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<EntityNotFoundExceptionDetails> entityNotFoundException(EntityNotFoundException ex, HttpServletRequest request) {
+    public ResponseEntity<EntityNotFoundExceptionDetails> entityNotFoundException(EntityNotFoundException ex,
+                                                                                  HttpServletRequest request) {
         var entityNotFoundExceptionDetails = new EntityNotFoundExceptionDetails();
         entityNotFoundExceptionDetails.setTimeStamp(LocalDateTime.now());
         entityNotFoundExceptionDetails.setStatus(HttpStatus.NOT_FOUND.value());
@@ -51,4 +52,16 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationExceptionDetails);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<IllegalArgumentExceptionDetails> illegalArgumentException(IllegalArgumentException ex,
+                                                                                    HttpServletRequest request) {
+        var illegalArgumentExceptionDetails = new IllegalArgumentExceptionDetails();
+        illegalArgumentExceptionDetails.setTimeStamp(LocalDateTime.now());
+        illegalArgumentExceptionDetails.setStatus(HttpStatus.BAD_REQUEST.value());
+        illegalArgumentExceptionDetails.setError(HttpStatus.BAD_REQUEST.name());
+        illegalArgumentExceptionDetails.setMessage(ex.getMessage());
+        illegalArgumentExceptionDetails.setPath(request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(illegalArgumentExceptionDetails);
+    }
 }
