@@ -16,7 +16,7 @@ public class Category {
     private String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Movie> movies = new ArrayList<>();
 
     public Category() {
