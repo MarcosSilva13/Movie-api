@@ -45,10 +45,6 @@ public class CategoryService {
     }
 
     public CategoryDTO update(CategoryDTO categoryDTO) {
-        if (categoryDTO.getId() == null || categoryDTO.getId() <= 0) {
-            throw new IllegalArgumentException("ID cannot be null or negative!");
-        }
-
         Category category = categoryRepository.findById(categoryDTO.getId())
                 .orElseThrow(() -> new EntityNotFoundException("ID: " + categoryDTO.getId() + " not found!"));
 
