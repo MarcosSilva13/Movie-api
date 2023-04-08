@@ -1,7 +1,6 @@
 package com.movie.movieapi.controller;
 
 import com.movie.movieapi.dtos.MovieDTO;
-import com.movie.movieapi.entity.Movie;
 import com.movie.movieapi.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,30 +23,24 @@ public class MovieController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Movie> findById(@PathVariable Long id) {
-        Movie movie = movieService.findById(id);
-
-        return ResponseEntity.status(HttpStatus.OK).body(movie);
+    public ResponseEntity<MovieDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(movieService.findById(id));
     }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<Movie> insert(@RequestBody @Valid Movie movie) {
-        Movie movieSaved = movieService.insert(movie);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(movieSaved);
+    public ResponseEntity<MovieDTO> insert(@RequestBody @Valid MovieDTO movieDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(movieService.insert(movieDTO));
     }
 
     @PutMapping(value = "/update")
-    public ResponseEntity<Movie> update(@RequestBody @Valid Movie movie) {
-        Movie movieUpdated = movieService.update(movie.getId(), movie.getName(), movie.getCategory());
-
-        return ResponseEntity.status(HttpStatus.OK).body(movieUpdated);
+    public ResponseEntity<MovieDTO> update(@RequestBody @Valid MovieDTO movieDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(movieService.update(movieDTO));
     }
 
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id) {
         movieService.deleteById(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body("Deletado com sucesso!");
+        return ResponseEntity.status(HttpStatus.OK).body("Successfully deleted!!");
     }
 }

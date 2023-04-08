@@ -5,9 +5,11 @@ import com.movie.movieapi.entity.Category;
 import com.movie.movieapi.entity.Movie;
 import com.movie.movieapi.repository.MovieRepository;
 import com.movie.movieapi.service.exceptions.EntityNotFoundException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,27 +25,51 @@ public class MovieService {
                 .collect(Collectors.toList());
     }
 
-    public Movie findById(Long id) {
-        return movieRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("ID: " + id + " não encontrado!"));
+    public MovieDTO findById(Long id) {
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("ID: " + id + " not found!"));
+
+        return new MovieDTO(movie);
     }
 
-    public Movie insert(Movie movie) {
-        return movieRepository.save(movie);
+    @Transactional
+    public MovieDTO insert(MovieDTO movieDTO) {
+        checkValidCategoryId(movieDTO);
+
+        Movie movie = new Movie();
+
+        movie.setCategory(new Category(movieDTO.getCategoryDTO().getId()));
+
+        BeanUtils.copyProperties(movieDTO, movie);
+
+        movie = movieRepository.save(movie);
+
+        return new MovieDTO(movie);
     }
 
-    public Movie update(Long id, String name, Category category) {
-        Movie mov = movieRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("ID: " + id + " não encontrado!"));
+    public MovieDTO update(MovieDTO movieDTO) {
+        checkValidCategoryId(movieDTO);
 
-        mov.setName(name);
-        mov.setCategory(category);
+        Movie movie = movieRepository.findById(movieDTO.getId())
+                .orElseThrow(() -> new EntityNotFoundException("ID: " + movieDTO.getId() + " not found!"));
 
-        return movieRepository.save(mov);
+        movie.setCategory(new Category(movieDTO.getCategoryDTO().getId()));
+
+        BeanUtils.copyProperties(movieDTO, movie);
+
+        movie = movieRepository.save(movie);
+
+        return new MovieDTO(movie);
     }
 
     public void deleteById(Long id) {
         movieRepository.deleteById(movieRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("ID: " + id + " não encontrado!")).getId());
+                .orElseThrow(() -> new EntityNotFoundException("ID: " + id + " not found!")).getId());
+    }
+
+    private void checkValidCategoryId(MovieDTO movieDTO) {
+        if (movieDTO.getCategoryDTO().getId() == null || movieDTO.getCategoryDTO().getId() <= 0) {
+            throw new IllegalArgumentException("ID category cannot be null, empty or negative!");
+        }
     }
 }
