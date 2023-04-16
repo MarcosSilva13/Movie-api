@@ -10,6 +10,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private Integer releaseYear;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -18,9 +19,10 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(Long id, String name, Category category) {
+    public Movie(Long id, String name, Integer releaseYear, Category category) {
         this.id = id;
         this.name = name;
+        this.releaseYear = releaseYear;
         this.category = category;
     }
 
@@ -38,6 +40,14 @@ public class Movie {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(Integer releaseYear) {
+        this.releaseYear = releaseYear;
     }
 
     public Category getCategory() {
