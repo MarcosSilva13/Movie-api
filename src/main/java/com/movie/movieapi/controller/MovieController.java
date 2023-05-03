@@ -22,6 +22,11 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.OK).body(movieService.findAll());
     }
 
+    @GetMapping(value = "/sortByName")
+    public ResponseEntity<List<MovieDTO>> findOrderByName() {
+        return ResponseEntity.status(HttpStatus.OK).body(movieService.findOrderByName());
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<MovieDTO> findById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(movieService.findById(id));

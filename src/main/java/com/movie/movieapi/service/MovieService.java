@@ -7,6 +7,7 @@ import com.movie.movieapi.repository.MovieRepository;
 import com.movie.movieapi.service.exceptions.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,6 +21,13 @@ public class MovieService {
 
     public List<MovieDTO> findAll() {
         return movieRepository.findAll()
+                .stream()
+                .map(movie -> new MovieDTO(movie))
+                .collect(Collectors.toList());
+    }
+
+    public List<MovieDTO> findOrderByName() {
+        return movieRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
                 .stream()
                 .map(movie -> new MovieDTO(movie))
                 .collect(Collectors.toList());
