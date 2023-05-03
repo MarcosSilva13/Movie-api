@@ -12,5 +12,13 @@ INSERT INTO tb_movie(name, release_year, category_id) VALUES('Forrest Gump', 199
 INSERT INTO tb_movie(name, release_year, category_id) VALUES('Schindlers List', 1993, 3);
 INSERT INTO tb_movie(name, release_year, category_id) VALUES('It', 2017, 4);
 INSERT INTO tb_movie(name, release_year, category_id) VALUES('The Conjuring', 2013, 4);
+INSERT INTO tb_movie(name, release_year, category_id) VALUES('The Conjuring 2', 2016, 4);
+INSERT INTO tb_movie(name, release_year, category_id) VALUES('Annabelle', 2014, 4);
 INSERT INTO tb_movie(name, release_year, category_id) VALUES('Star Wars', 1977, 5);
 INSERT INTO tb_movie(name, release_year, category_id) VALUES('Matrix', 1999, 5);
+INSERT INTO tb_movie(name, release_year, category_id) VALUES('The Hunger Games', 2012, 5);
+INSERT INTO tb_movie(name, release_year, category_id) VALUES('The Hunger Games: Catching Fire', 2013, 5);
+INSERT INTO tb_movie(name, release_year, category_id) VALUES('The Hunger Games: Mockingjay - Part 1', 2014, 5);
+INSERT INTO tb_movie(name, release_year, category_id) VALUES('The Hunger Games: Mockingjay - Part 2', 2015, 5);
+INSERT INTO tb_movie(name, release_year, category_id) VALUES('Kick ass', 2010, 1);
+INSERT INTO tb_movie(name, release_year, category_id) VALUES('Kick ass 2', 2013, 1);
