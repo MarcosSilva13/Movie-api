@@ -32,6 +32,11 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.OK).body(movieService.findById(id));
     }
 
+    @GetMapping(value = "/name/{name}")
+    public ResponseEntity<List<MovieDTO>> findByName(@PathVariable String name) {
+        return ResponseEntity.status(HttpStatus.OK).body(movieService.findByName(name));
+    }
+
     @PostMapping(value = "/save")
     public ResponseEntity<MovieDTO> insert(@RequestBody @Valid MovieDTO movieDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(movieService.insert(movieDTO));
