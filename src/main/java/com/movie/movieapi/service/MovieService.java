@@ -40,6 +40,13 @@ public class MovieService {
         return new MovieDTO(movie);
     }
 
+    public List<MovieDTO> findByName(String name) {
+        return movieRepository.findByName(name)
+                .stream()
+                .map(movie -> new MovieDTO(movie))
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public MovieDTO insert(MovieDTO movieDTO) {
         checkValidCategoryId(movieDTO);
@@ -55,6 +62,7 @@ public class MovieService {
         return new MovieDTO(movie);
     }
 
+    @Transactional
     public MovieDTO update(MovieDTO movieDTO) {
         checkValidCategoryId(movieDTO);
 
@@ -70,6 +78,7 @@ public class MovieService {
         return new MovieDTO(movie);
     }
 
+    @Transactional
     public void deleteById(Long id) {
         movieRepository.deleteById(movieRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ID: " + id + " not found!")).getId());
