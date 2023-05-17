@@ -12,6 +12,9 @@ public class MovieDTO {
     @NotBlank(message = "Movie name with invalid format.")
     private String name;
 
+    @NotBlank(message = "Movie director with invalid format.")
+    private String director;
+
     @NotNull(message = "Movie releaseYear with invalid format.")
     private Integer releaseYear;
 
@@ -24,6 +27,7 @@ public class MovieDTO {
     public MovieDTO(Movie movie) {
         this.id = movie.getId();
         this.name = movie.getName();
+        this.director = movie.getDirector();
         this.releaseYear = movie.getReleaseYear();
         categoryDTO = new CategoryDTO(movie.getCategory());
     }
@@ -42,6 +46,14 @@ public class MovieDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
     }
 
     public Integer getReleaseYear() {

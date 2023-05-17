@@ -10,6 +10,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String director;
     private Integer releaseYear;
 
     @ManyToOne
@@ -19,9 +20,10 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(Long id, String name, Integer releaseYear, Category category) {
+    public Movie(Long id, String name, String director, Integer releaseYear, Category category) {
         this.id = id;
         this.name = name;
+        this.director = director;
         this.releaseYear = releaseYear;
         this.category = category;
     }
@@ -40,6 +42,14 @@ public class Movie {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
     }
 
     public Integer getReleaseYear() {
