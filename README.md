@@ -76,6 +76,7 @@
 {
   "id": 1,
   "name": "Fast and Furious",
+  "director": "Rob Cohen",
   "releaseYear": 2001,
   "Category": {
       "id": 1,
