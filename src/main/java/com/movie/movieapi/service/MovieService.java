@@ -20,14 +20,14 @@ public class MovieService {
     private MovieRepository movieRepository;
 
     public List<MovieDTO> findAll() {
-        return movieRepository.findAll()
+        return movieRepository.searchAll()
                 .stream()
                 .map(movie -> new MovieDTO(movie))
                 .collect(Collectors.toList());
     }
 
     public List<MovieDTO> findOrderByName() {
-        return movieRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
+        return movieRepository.searchAll(Sort.by(Sort.Direction.ASC, "name"))
                 .stream()
                 .map(movie -> new MovieDTO(movie))
                 .collect(Collectors.toList());
