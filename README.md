@@ -32,17 +32,17 @@
 <h3>🔹POST🔹</h3>
 
 ```bash
-/movies/save ==> (Salva um novo filme).
+/movies ==> (Salva um novo filme).
 ```
 <h3>🔹PUT🔹</h3>
 
 ```bash
-/movies/update ==> (Atualiza os dados de um filme).
+/movies ==> (Atualiza os dados de um filme).
 ```
 <h3>🔹DELETE🔹</h3>
 
 ```bash
-/movies/delete/{id} ==> (Deleta um filme pelo id).
+/movies/{id} ==> (Deleta um filme pelo id).
 ```
 
 <h2> Endpoints - Categoria </h2>
@@ -57,17 +57,17 @@
 <h3>🔹POST🔹</h3>
 
 ```bash
-/categories/save ==> (Salva uma nova categoria).
+/categories ==> (Salva uma nova categoria).
 ```
 <h3>🔹PUT🔹</h3>
 
 ```bash
-/categories/update ==> (Atualiza os dados de uma categoria).
+/categories ==> (Atualiza os dados de uma categoria).
 ```
 <h3>🔹DELETE🔹</h3>
 
 ```bash
-/categories/delete/{id} ==> (Deleta uma categoria pelo id).
+/categories/{id} ==> (Deleta uma categoria pelo id).
 ```
 
 <h3>Exemplo de retorno de um filme </h3>
