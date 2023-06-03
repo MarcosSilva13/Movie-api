@@ -37,17 +37,17 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.OK).body(movieService.findByName(name));
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping
     public ResponseEntity<MovieDTO> insert(@RequestBody @Valid MovieDTO movieDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(movieService.insert(movieDTO));
     }
 
-    @PutMapping(value = "/update")
+    @PutMapping
     public ResponseEntity<MovieDTO> update(@RequestBody @Valid MovieDTO movieDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(movieService.update(movieDTO));
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id) {
         movieService.deleteById(id);
 
