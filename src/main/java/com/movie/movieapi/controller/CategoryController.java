@@ -1,7 +1,6 @@
 package com.movie.movieapi.controller;
 
 import com.movie.movieapi.dtos.CategoryDTO;
-import com.movie.movieapi.dtos.MovieDTO;
 import com.movie.movieapi.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(value = "/categories")
 public class CategoryController {
 
@@ -28,18 +28,18 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.OK).body(categoryService.findById(id));
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping
     public ResponseEntity<CategoryDTO> insert(@RequestBody @Valid CategoryDTO categoryDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.insert(categoryDTO));
     }
 
-    @PutMapping(value = "/update")
+    @PutMapping
     public ResponseEntity<CategoryDTO> update(@RequestBody @Valid CategoryDTO categoryDTO) {
 
         return ResponseEntity.status(HttpStatus.OK).body(categoryService.update(categoryDTO));
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id) {
         categoryService.deleteById(id);
 
