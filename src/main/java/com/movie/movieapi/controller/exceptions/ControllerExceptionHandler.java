@@ -51,17 +51,4 @@ public class ControllerExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationExceptionDetails);
     }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<IllegalArgumentExceptionDetails> illegalArgumentException(IllegalArgumentException ex,
-                                                                                    HttpServletRequest request) {
-        var illegalArgumentExceptionDetails = new IllegalArgumentExceptionDetails();
-        illegalArgumentExceptionDetails.setTimeStamp(LocalDateTime.now());
-        illegalArgumentExceptionDetails.setStatus(HttpStatus.BAD_REQUEST.value());
-        illegalArgumentExceptionDetails.setError(HttpStatus.BAD_REQUEST.name());
-        illegalArgumentExceptionDetails.setMessage(ex.getMessage());
-        illegalArgumentExceptionDetails.setPath(request.getRequestURI());
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(illegalArgumentExceptionDetails);
-    }
 }
