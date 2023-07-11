@@ -1,11 +1,11 @@
 package com.movie.movieapi.service;
 
-import com.movie.movieapi.dtos.MovieDTO;
-import com.movie.movieapi.entity.Category;
+import com.movie.movieapi.dtos.MovieRequestDTO;
+import com.movie.movieapi.dtos.MovieResponseDTO;
 import com.movie.movieapi.entity.Movie;
 import com.movie.movieapi.repository.MovieRepository;
 import com.movie.movieapi.service.exceptions.EntityNotFoundException;
-import org.springframework.beans.BeanUtils;
+import com.movie.movieapi.util.MovieConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -16,77 +16,64 @@ import java.util.stream.Collectors;
 
 @Service
 public class MovieService {
+
     @Autowired
     private MovieRepository movieRepository;
 
-    public List<MovieDTO> findAll() {
+    @Transactional(readOnly = true)
+    public List<MovieResponseDTO> findAll() {
         return movieRepository.searchAll()
                 .stream()
-                .map(movie -> new MovieDTO(movie))
+                .map(MovieResponseDTO::new)
                 .collect(Collectors.toList());
     }
 
-    public List<MovieDTO> findOrderByName() {
+    @Transactional(readOnly = true)
+    public List<MovieResponseDTO> findOrderByName() {
         return movieRepository.searchAll(Sort.by(Sort.Direction.ASC, "name"))
                 .stream()
-                .map(movie -> new MovieDTO(movie))
+                .map(MovieResponseDTO::new)
                 .collect(Collectors.toList());
     }
 
-    public MovieDTO findById(Long id) {
+    @Transactional(readOnly = true)
+    public MovieResponseDTO findById(Long id) {
         Movie movie = movieRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ID: " + id + " not found!"));
 
-        return new MovieDTO(movie);
+        return new MovieResponseDTO(movie);
     }
 
-    public List<MovieDTO> findByName(String name) {
+    @Transactional(readOnly = true)
+    public List<MovieResponseDTO> findByName(String name) {
         return movieRepository.findByName(name)
                 .stream()
-                .map(movie -> new MovieDTO(movie))
+                .map(MovieResponseDTO::new)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public MovieDTO insert(MovieDTO movieDTO) {
-        checkValidCategoryId(movieDTO);
-
+    public MovieResponseDTO insert(MovieRequestDTO movieRequestDTO) {
         Movie movie = new Movie();
 
-        movie.setCategory(new Category(movieDTO.getCategoryDTO().getId()));
+        MovieConverter.convertDtoToEntity(movieRequestDTO, movie);
 
-        BeanUtils.copyProperties(movieDTO, movie);
-
-        movie = movieRepository.save(movie);
-
-        return new MovieDTO(movie);
+        return new MovieResponseDTO(movieRepository.save(movie));
     }
 
     @Transactional
-    public MovieDTO update(MovieDTO movieDTO) {
-        checkValidCategoryId(movieDTO);
+    public MovieResponseDTO update(Long id, MovieRequestDTO movieRequestDTO) {
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("ID: " + id + " not found!"));
 
-        Movie movie = movieRepository.findById(movieDTO.getId())
-                .orElseThrow(() -> new EntityNotFoundException("ID: " + movieDTO.getId() + " not found!"));
+        MovieConverter.convertDtoToEntity(movieRequestDTO, movie);
 
-        movie.setCategory(new Category(movieDTO.getCategoryDTO().getId()));
-
-        BeanUtils.copyProperties(movieDTO, movie);
-
-        movie = movieRepository.save(movie);
-
-        return new MovieDTO(movie);
+        return new MovieResponseDTO(movieRepository.save(movie));
     }
 
     @Transactional
     public void deleteById(Long id) {
         movieRepository.deleteById(movieRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ID: " + id + " not found!")).getId());
-    }
-
-    private void checkValidCategoryId(MovieDTO movieDTO) {
-        if (movieDTO.getCategoryDTO().getId() == null || movieDTO.getCategoryDTO().getId() <= 0) {
-            throw new IllegalArgumentException("ID category cannot be null, empty or negative!");
-        }
     }
 }

@@ -1,6 +1,7 @@
 package com.movie.movieapi.controller;
 
-import com.movie.movieapi.dtos.CategoryDTO;
+import com.movie.movieapi.dtos.CategoryRequestDTO;
+import com.movie.movieapi.dtos.CategoryResponseDTO;
 import com.movie.movieapi.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,24 +20,25 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryDTO>> findAll() {
+    public ResponseEntity<List<CategoryResponseDTO>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(categoryService.findAll());
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CategoryDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<CategoryResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(categoryService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<CategoryDTO> insert(@RequestBody @Valid CategoryDTO categoryDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.insert(categoryDTO));
+    public ResponseEntity<CategoryResponseDTO> insert(@RequestBody @Valid CategoryRequestDTO categoryRequestDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.insert(categoryRequestDTO));
     }
 
-    @PutMapping
-    public ResponseEntity<CategoryDTO> update(@RequestBody @Valid CategoryDTO categoryDTO) {
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<CategoryResponseDTO> update(@PathVariable Long id,
+                                                      @RequestBody @Valid CategoryRequestDTO categoryRequestDTO) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(categoryService.update(categoryDTO));
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.update(id, categoryRequestDTO));
     }
 
     @DeleteMapping(value = "/{id}")

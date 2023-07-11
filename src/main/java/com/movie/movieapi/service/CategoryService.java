@@ -1,14 +1,15 @@
 package com.movie.movieapi.service;
 
-import com.movie.movieapi.dtos.CategoryDTO;
+import com.movie.movieapi.dtos.CategoryRequestDTO;
+import com.movie.movieapi.dtos.CategoryResponseDTO;
 import com.movie.movieapi.entity.Category;
 import com.movie.movieapi.repository.CategoryRepository;
 import com.movie.movieapi.service.exceptions.EntityNotFoundException;
-import org.springframework.beans.BeanUtils;
+import com.movie.movieapi.util.CategoryConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,43 +19,42 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public List<CategoryDTO> findAll() {
-
+    @Transactional(readOnly = true)
+    public List<CategoryResponseDTO> findAll() {
         return categoryRepository.findAll()
                 .stream()
-                .map(category -> new CategoryDTO(category))
+                .map(CategoryResponseDTO::new)
                 .collect(Collectors.toList());
     }
 
-    public CategoryDTO findById(Long id) {
+    @Transactional(readOnly = true)
+    public CategoryResponseDTO findById(Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ID: " + id + " not found!"));
 
-        return new CategoryDTO(category);
+        return new CategoryResponseDTO(category);
     }
 
     @Transactional
-    public CategoryDTO insert(CategoryDTO categoryDTO) {
+    public CategoryResponseDTO insert(CategoryRequestDTO categoryRequestDTO) {
         Category category = new Category();
 
-        BeanUtils.copyProperties(categoryDTO, category);
+        CategoryConverter.convertDtoToEntity(categoryRequestDTO, category);
 
-        category = categoryRepository.save(category);
-
-        return new CategoryDTO(category);
+        return new CategoryResponseDTO(categoryRepository.save(category));
     }
 
-    public CategoryDTO update(CategoryDTO categoryDTO) {
-        Category category = categoryRepository.findById(categoryDTO.getId())
-                .orElseThrow(() -> new EntityNotFoundException("ID: " + categoryDTO.getId() + " not found!"));
+    @Transactional
+    public CategoryResponseDTO update(Long id, CategoryRequestDTO categoryRequestDTO) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("ID: " + id + " not found!"));
 
-        BeanUtils.copyProperties(categoryDTO, category);
+        CategoryConverter.convertDtoToEntity(categoryRequestDTO, category);
 
-        category = categoryRepository.save(category);
-
-        return new CategoryDTO(category);
+        return new CategoryResponseDTO(categoryRepository.save(category));
     }
 
+    @Transactional
     public void deleteById(Long id) {
         categoryRepository.deleteById(categoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ID: " + id + " not found!")).getId());
