@@ -5,8 +5,6 @@
   Para categorias, a API mantém um registro do ID e do nome da categoria.
 </p>
 
-+ OBS: Ainda em construção...
-
 <h2> Tecnologias utilizadas </h2>
 <p>
   🔹<strong> Java 11 </strong> <br>
